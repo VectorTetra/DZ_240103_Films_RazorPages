@@ -1,3 +1,5 @@
+using DZ_240103_Films_RazorPages.Models;
+using DZ_240103_Films_RazorPages.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
@@ -5,16 +7,18 @@ namespace DZ_240103_Films_RazorPages.Pages
 {
     public class IndexModel : PageModel
     {
-        private readonly ILogger<IndexModel> _logger;
+        [BindProperty(SupportsGet = true)]
+        public ICollection<Film> Films { get; set; }
 
-        public IndexModel(ILogger<IndexModel> logger)
+        private readonly IFilmRepository _repo;
+        public IndexModel(IFilmRepository repo)
         {
-            _logger = logger;
+            _repo = repo;
         }
 
-        public void OnGet()
+        public async Task OnGetAsync()
         {
-
+           Films = await _repo.GetFilms();
         }
     }
 }

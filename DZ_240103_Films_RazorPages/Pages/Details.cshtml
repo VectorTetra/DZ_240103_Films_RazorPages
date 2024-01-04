@@ -1,0 +1,56 @@
+﻿@page
+@model DZ_240103_Films_RazorPages.Pages.DetailsModel
+@{
+    ViewData["Title"] = "Подробиці фільму";
+}
+
+<h1>Подробиці фільму</h1>
+<div>
+    <hr />
+    <table>
+        <tr>
+            <th>
+                <dl class="row">
+                    <dt class="col-sm-2">
+                        @Html.DisplayNameFor(model => model.Film.Name)
+                    </dt>
+                    <dd class="col-sm-10">
+                        @Html.DisplayFor(model => model.Film.Name)
+                    </dd>
+                    <dt class="col-sm-2">
+                        @Html.DisplayNameFor(model => model.Film.Genre)
+                    </dt>
+                    <dd class="col-sm-10">
+                        @Html.DisplayFor(model => model.Film.Genre)
+                    </dd>
+                    <dt class="col-sm-2">
+                        @Html.DisplayNameFor(model => model.Film.Director)
+                    </dt>
+                    <dd class="col-sm-10">
+                        @Html.DisplayFor(model => model.Film.Director)
+                    </dd>
+                    <dt class="col-sm-2">
+                        @Html.DisplayNameFor(model => model.Film.ReleaseYear)
+                    </dt>
+                    <dd class="col-sm-10">
+                        @Html.DisplayFor(model => model.Film.ReleaseYear)
+                    </dd>
+                </dl>
+                <div>
+                    @Html.DisplayNameFor(model => model.Film.Description)
+                </div>
+                <div class="filmdescr" style="margin-right:10px;">
+                    @Html.DisplayFor(model => model.Film.Description)
+                </div>
+            </th>
+            <th style="width:auto">
+                <img src="@Url.Content(Model.Film.PosterPath)" style="width:300px;height:400px;" />
+            </th>
+        </tr>
+    </table>
+
+
+
+    <a asp-page="Index">На головну сторінку</a>
+
+</div>

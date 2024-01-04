@@ -58,45 +58,78 @@ Variables
     --fixed-width: 620px;
 }
 
-.LoginLabel {
-    font-weight: bold;
-    font-style: italic;
+body {
+    background-color: wheat;
+    text-align: initial;
+}
+
+.addbutton {
+    background-color: limegreen;
+    color: whitesmoke;
+    font-weight: 800;
+    text-align: center;
+}
+
+.maintitle {
+    padding: 10px;
+    border-radius: 15%;
+    background-color: white;
+    color: black;
+    font-family: 'Times New Roman';
+    font-size: 32pt;
+}
+
+.filmtitle {
+    padding-left: 5px;
+    border-radius: 5%;
+    background-color: aqua;
+    color: darkblue;
+    font-family: 'Times New Roman';
+}
+
+.pt24 {
     font-size: 24pt;
-    font-family: var(--ff-primary);
-    color: var(--clr-primary-3);
-    background-color: transparent;
-    letter-spacing: var(--spacing);
 }
 
-.DatetimeLabel {
-    font-weight: lighter;
-    font-size: 16pt;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: transparent;
-    color: var(--clr-grey-4);
-    float: right;
+.pt18 {
+    font-size: 18pt;
 }
 
-.TextReviewLabel {
-    font-size: 14pt;
-    font-weight: normal;
-    font-family: var(--ff-secondary);
-    background-color: azure;
-    border-radius: 10px 10px;
-    color: var(--clr-grey-1);
+.monosp {
+    font-family: Bahnschrift;
+    padding-left: 5px;
 }
 
-.NoOneReviewLabel {
-    font-weight: 100;
-    font-size: 72pt;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: transparent;
+.tright {
+    text-align: right;
+}
+
+.filmreleaseyear {
+    font-weight: bold;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+.filmdescr {
+    font-family: 'Times New Roman', Times, serif;
+    padding: 5px;
+    background-color: aliceblue;
+    color: darkslategrey; 
+    
+    border-radius: 5% 5%;
+    vertical-align: bottom;
+    overflow: auto;
+    max-height: 265px;
+}
+
+.verticalcenter {
     display: flex;
-    align-content: center;
-    vertical-align: central;
-    color: var(--clr-primary-5);
+    height: 100%;
+    justify-items: center;
+    flex-direction: column;
 }
-
+.margin-b5{
+    margin-bottom:5px;
+}
 .widthfull {
     width: 100%;
 }

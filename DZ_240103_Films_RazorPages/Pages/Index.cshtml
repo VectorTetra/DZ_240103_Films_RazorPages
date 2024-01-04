@@ -1,10 +1,54 @@
 ﻿@page
 @model IndexModel
 @{
-    ViewData["Title"] = "Home page";
+    ViewData["Title"] = "Найкращі фільми";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+
+<form>
+    <input type="submit" asp-page="Create" name="AddButton" value="Додати новий фільм" class="addbutton" style="margin-top:10px;"/>
+</form>
+
+<p class="maintitle" style="margin-top:10px;">
+    10 найкращих фільмів
+</p>
+<div>
+    <table class="table">
+        <tbody>
+            @foreach (var item in Model.Films)
+            {
+                <tr style="margin:50px 0 50px 0;max-height:400px;">
+                    <td>
+                        <img src="@Url.Content(item.PosterPath)" style="width:300px;height:400px;"/>
+                    </td>
+                    <td>
+                        <div class="filmtitle pt24">
+                        @Html.DisplayFor(modelItem => item.Name)
+                        </div>
+                        <div class="monosp">
+                            @Html.DisplayNameFor(modelItem => item.Genre) : @Html.DisplayFor(modelItem => item.Genre)
+                        </div>
+                        <div class="filmreleaseyear pt18 tright">
+                            @Html.DisplayFor(modelItem => item.ReleaseYear)
+                        </div>
+                        <div class="monosp">
+                            @Html.DisplayNameFor(modelItem => item.Director) : @Html.DisplayFor(modelItem => item.Director)
+                        </div>
+                        <div class="filmdescr">
+                            @Html.DisplayFor(modelItem => item.Description)
+                        </div>
+                    </td>
+
+                    <td>
+                        <div class="verticalcenter">
+                        <a asp-page="Edit" asp-route-id="@item.Id" asp-page-handler="Info" class="btn btn-primary margin-b5">Редагувати</a>
+                        <a asp-page="Details" asp-route-id="@item.Id" class="btn btn-info margin-b5">Подробиці</a>
+                        <a asp-page="Delete" asp-route-id="@item.Id" class="btn btn-danger margin-b5">Видалити</a>
+
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
 </div>

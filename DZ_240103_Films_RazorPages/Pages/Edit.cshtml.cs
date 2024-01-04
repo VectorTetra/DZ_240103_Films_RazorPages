@@ -1,26 +1,38 @@
 using DZ_240103_Films_RazorPages.Models;
 using DZ_240103_Films_RazorPages.Repositories;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.EntityFrameworkCore;
 
 namespace DZ_240103_Films_RazorPages.Pages
 {
-    public class CreateModel : PageModel
+    public class EditModel : PageModel
     {
+        [BindProperty]
+        public Film? Film { get; set; }
         [BindProperty(SupportsGet = true)]
-        public Film Film { get; set; }
-        [BindProperty(SupportsGet = true)]
-        public IFormFile PosterFile { get; set; }
+        public IFormFile? PosterFile { get; set; }
         private readonly IFilmRepository _repo;
         // IWebHostEnvironment предоставл€ет информацию об окружении, в котором запущено приложение
         IWebHostEnvironment _appEnvironment;
-        public CreateModel(IFilmRepository repo, IWebHostEnvironment appEnvironment)
+        public EditModel(IFilmRepository repo, IWebHostEnvironment appEnvironment)
         {
             _repo = repo;
             _appEnvironment = appEnvironment;
         }
+        public async Task OnGetInfo(int? id)
+        {
+            //if (id == null || await _repo.GetFilms() == null)
+            //{
+            //    NotFound();
+            //}
+            Film = await _repo.FindFilm((int)id);
 
+            //if (Film == null)
+            //{
+            //    NotFound();
+            //}
+        }
         public async Task<IActionResult> OnPostAsync()
         {
             try
@@ -41,9 +53,9 @@ namespace DZ_240103_Films_RazorPages.Pages
                     {
                         await PosterFile.CopyToAsync(fileStream); // копируем файл в поток
                     }
-                    //Film film = new Film { Name = Name, ReleaseYear = ReleaseYear, Genre = Genre, Director = Director, Description = Description };
+
                     Film.PosterPath = vpath;
-                    await _repo.AddFilm(Film);
+                    await _repo.UpdateFilm(Film);
                     return RedirectToPage("./Index");
                 }
                 return Page();

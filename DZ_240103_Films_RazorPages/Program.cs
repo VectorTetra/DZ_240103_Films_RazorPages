@@ -16,6 +16,8 @@ builder.Services.AddRazorPages();
 
 var app = builder.Build();
 
-app.UseStaticFiles(); // обрабатывает запросы к файлам в папке wwwroot
+app.UseStaticFiles();
+
+app.MapRazorPages();
 
 app.Run();
