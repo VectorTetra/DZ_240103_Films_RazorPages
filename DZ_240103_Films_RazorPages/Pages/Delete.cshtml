@@ -1,0 +1,47 @@
+﻿@page
+@model DZ_240103_Films_RazorPages.Pages.DeleteModel
+
+@{
+    ViewData["Title"] = "Delete";
+}
+
+<h1>Видалення фільму</h1>
+
+<h3>Ви точно хочете видалити цей фільм?</h3>
+<hr />
+<div>
+    <table class="table">
+        <tbody>
+
+            <tr style="margin:50px 0 50px 0;max-height:400px;">
+                <td>
+                    <img src="@Url.Content(@Model.Film.PosterPath)" style="width:300px;height:400px;" />
+                </td>
+                <td>
+                    <div class="pt18">
+                        <b>@Html.DisplayNameFor(modelItem => modelItem.Film.Name) :</b> @Html.DisplayFor(modelItem => modelItem.Film.Name)
+                    </div>
+                    <div class="monosp">
+                        <b>@Html.DisplayNameFor(modelItem => modelItem.Film.Genre) :</b> @Html.DisplayFor(modelItem => modelItem.Film.Genre)
+                    </div>
+                    <div class="monosp">
+                        <b>@Html.DisplayNameFor(modelItem => modelItem.Film.ReleaseYear) :</b> @Html.DisplayFor(modelItem => modelItem.Film.ReleaseYear)
+                    </div>
+                    <div class="monosp">
+                        <b>@Html.DisplayNameFor(modelItem => modelItem.Film.Director) :</b> @Html.DisplayFor(modelItem => modelItem.Film.Director)
+                    </div>
+                    <div class="filmdescr">
+                        @Html.DisplayNameFor(modelItem => modelItem.Film.Description) : @Html.DisplayFor(modelItem => modelItem.Film.Description)
+                    </div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+
+    <form method="post">
+        <input type="hidden" asp-for="Film.Id" />
+        <input type="submit" value="Видалити" class="btn btn-danger" /> |
+        <a asp-page="./Index">На головну сторінку</a>
+    </form>
+</div>
