@@ -1,80 +1,58 @@
-﻿@page "{handler?}"
+﻿@page
 @model DZ_240103_Films_RazorPages.Pages.EditModel
-@{
-    ViewData["Title"] = "Редагування фільму"; 
-    Layout = "_Layout";
-}
-<h1>Редагування фільму</h1>
-<hr />
 
-@*Благодаря установке атрибута формы enctype="multipart/form-data"
-        браузер будет знать, что вместе с формой надо передать файл.*@
-<form method="post" enctype="multipart/form-data">
-    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-    <input type="hidden" asp-for="Film.Id" />
-    <input type="hidden" asp-for="Film.PosterPath" />
-    <table style="width:100%;">
-        <tr>
-            <th>
-                <div class="form-group">
-                    <label asp-for="Film.Name" class="control-label"></label>
-                    <input asp-for="Film.Name" class="form-control" name="Name" />
-                    <span asp-validation-for="Film.Name" class="text-danger"></span>
-                </div>
-            </th>
-            <th>
-                <div class="form-group">
-                    <label asp-for="Film.Genre" class="control-label"></label>
-                    <input asp-for="Film.Genre" class="form-control" name="Genre" />
-                    <span asp-validation-for="Film.Genre" class="text-danger"></span>
-                </div>
-            </th>
-        </tr>
-        <tr>
-            <th>
-                <div class="form-group">
-                    <label asp-for="Film.Director" class="control-label"></label>
-                    <input asp-for="Film.Director" class="form-control" name="Director" />
-                    <span asp-validation-for="Film.Director" class="text-danger"></span>
-                </div>
-            </th>
-            <th>
-                <div class="form-group">
-                    <label asp-for="Film.ReleaseYear" class="control-label"></label>
-                    <input asp-for="Film.ReleaseYear" class="form-control" name="ReleaseYear" type="number" />
-                    <span asp-validation-for="Film.ReleaseYear" class="text-danger"></span>
-                </div>
-            </th>
-        </tr>
-        <tr>
-            <th colspan="2">
-                <div class="form-group">
-                    <label asp-for="Film.PosterPath" class="control-label"></label><br>
-                    <input type="file" name="PosterFile" value="PosterFile" required />
-                </div>
-            </th>
-        </tr>
-        <tr>
-            <th colspan="2">
-                <div class="form-group">
-                    <div><label asp-for="Film.Description" class="control-label"></label></div>
-                    <div><textarea asp-for="Film.Description" name="Description" style="resize:block;width:100%"></textarea></div>
-                    <div><span asp-validation-for="Film.Description" class="text-danger"></span></div>
-                </div>
-            </th>
-        </tr>
-    </table>
-    <div class="form-group">
-        <input type="submit" value="Зберегти" class="btn btn-primary" />
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>Film</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Film.Id" />
+            <div class="form-group">
+                <label asp-for="Film.Name" class="control-label"></label>
+                <input asp-for="Film.Name" class="form-control" />
+                <span asp-validation-for="Film.Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Film.Director" class="control-label"></label>
+                <input asp-for="Film.Director" class="form-control" />
+                <span asp-validation-for="Film.Director" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Film.ReleaseYear" class="control-label"></label>
+                <input asp-for="Film.ReleaseYear" class="form-control" />
+                <span asp-validation-for="Film.ReleaseYear" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Film.Genre" class="control-label"></label>
+                <input asp-for="Film.Genre" class="form-control" />
+                <span asp-validation-for="Film.Genre" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="file" name="PosterFile" asp-for="PosterFile" required />
+            </div>
+            <div class="form-group">
+                <label asp-for="Film.Description" class="control-label"></label>
+                <input asp-for="Film.Description" class="form-control" />
+                <span asp-validation-for="Film.Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
     </div>
-</form>
+</div>
 
 <div>
-    <a asp-page="Index">На головну сторінку</a>
+    <a asp-page="./Index">Back to List</a>
 </div>
 
 @section Scripts {
-    @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial");
-    }
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }

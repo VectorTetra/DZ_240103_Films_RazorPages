@@ -1,61 +1,97 @@
-using DZ_240103_Films_RazorPages.Models;
-using DZ_240103_Films_RazorPages.Repositories;
-using Microsoft.AspNetCore.Http.HttpResults;
+п»їusing System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
+using DZ_240103_Films_RazorPages.Models;
 
 namespace DZ_240103_Films_RazorPages.Pages
 {
     public class EditModel : PageModel
     {
-        [BindProperty]
-        public Film? Film { get; set; }
-        [BindProperty(SupportsGet = true)]
-        public IFormFile? PosterFile { get; set; }
-        private readonly IFilmRepository _repo;
-        // IWebHostEnvironment предоставляет информацию об окружении, в котором запущено приложение
+        private readonly FilmContext _context;
+        // IWebHostEnvironment РїСЂРµРґРѕСЃС‚Р°РІР»СЏРµС‚ РёРЅС„РѕСЂРјР°С†РёСЋ РѕР± РѕРєСЂСѓР¶РµРЅРёРё, РІ РєРѕС‚РѕСЂРѕРј Р·Р°РїСѓС‰РµРЅРѕ РїСЂРёР»РѕР¶РµРЅРёРµ
         IWebHostEnvironment _appEnvironment;
-        public EditModel(IFilmRepository repo, IWebHostEnvironment appEnvironment)
+        public EditModel(FilmContext context, IWebHostEnvironment appEnvironment)
         {
-            _repo = repo;
+            _context = context;
             _appEnvironment = appEnvironment;
         }
-        public async Task OnGetInfo(int? id)
-        {
-            //if (id == null || await _repo.GetFilms() == null)
-            //{
-            //    NotFound();
-            //}
-            Film = await _repo.FindFilm((int)id);
 
-            //if (Film == null)
-            //{
-            //    NotFound();
-            //}
+        [BindProperty]
+        public Film Film { get; set; } = default!;
+        [BindProperty]
+        public IFormFile? PosterFile { get; set; }
+
+        public async Task<IActionResult> OnGetAsync(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var film =  await _context.Films.FirstOrDefaultAsync(m => m.Id == id);
+            if (film == null)
+            {
+                return NotFound();
+            }
+            Film = film;
+            return Page();
         }
+
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see https://aka.ms/RazorPagesCRUD.
         public async Task<IActionResult> OnPostAsync()
         {
+            //if (!ModelState.IsValid)
+            //{
+            //    return Page();
+            //}
+
+            //_context.Attach(Film).State = EntityState.Modified;
+
+            //try
+            //{
+            //    await _context.SaveChangesAsync();
+            //}
+            //catch (DbUpdateConcurrencyException)
+            //{
+            //    if (!FilmExists(Film.Id))
+            //    {
+            //        return NotFound();
+            //    }
+            //    else
+            //    {
+            //        throw;
+            //    }
+            //}
+
+            //return RedirectToPage("./Index");
             try
             {
                 if (Film.Description.Length < 20)
                 {
-                    ModelState.AddModelError("", "Довжина опису фільму - мінімум 20 символів");
+                    ModelState.AddModelError("", "Р”РѕРІР¶РёРЅР° РѕРїРёСЃСѓ С„С–Р»СЊРјСѓ - РјС–РЅС–РјСѓРј 20 СЃРёРјРІРѕР»С–РІ");
                 }
                 if (PosterFile != null && ModelState.IsValid)
                 {
-                    // Путь к папке Files
-                    string path = "/Files/" + PosterFile.FileName; // имя файла
+                    // РџСѓС‚СЊ Рє РїР°РїРєРµ Files
+                    string path = "/Files/" + PosterFile.FileName; // РёРјСЏ С„Р°Р№Р»Р°
                     string vpath = "~" + path;
-                    // Сохраняем файл в папку Files в каталоге wwwroot
-                    // Для получения полного пути к каталогу wwwroot
-                    // применяется свойство WebRootPath объекта IWebHostEnvironment
+                    // РЎРѕС…СЂР°РЅСЏРµРј С„Р°Р№Р» РІ РїР°РїРєСѓ Files РІ РєР°С‚Р°Р»РѕРіРµ wwwroot
+                    // Р”Р»СЏ РїРѕР»СѓС‡РµРЅРёСЏ РїРѕР»РЅРѕРіРѕ РїСѓС‚Рё Рє РєР°С‚Р°Р»РѕРіСѓ wwwroot
+                    // РїСЂРёРјРµРЅСЏРµС‚СЃСЏ СЃРІРѕР№СЃС‚РІРѕ WebRootPath РѕР±СЉРµРєС‚Р° IWebHostEnvironment
                     using (var fileStream = new FileStream(_appEnvironment.WebRootPath + path, FileMode.Create))
                     {
-                        await PosterFile.CopyToAsync(fileStream); // копируем файл в поток
+                        await PosterFile.CopyToAsync(fileStream); // РєРѕРїРёСЂСѓРµРј С„Р°Р№Р» РІ РїРѕС‚РѕРє
                     }
 
                     Film.PosterPath = vpath;
-                    await _repo.UpdateFilm(Film);
+                    _context.Attach(Film).State = EntityState.Modified;
+                    await _context.SaveChangesAsync();
                     return RedirectToPage("./Index");
                 }
                 return Page();
@@ -66,6 +102,11 @@ namespace DZ_240103_Films_RazorPages.Pages
                 Console.WriteLine(ex.Message);
                 return BadRequest();
             }
+        }
+
+        private bool FilmExists(int id)
+        {
+            return _context.Films.Any(e => e.Id == id);
         }
     }
 }
